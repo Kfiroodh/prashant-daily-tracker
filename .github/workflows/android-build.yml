@@ -35,7 +35,7 @@ jobs:
       run: npm run prepare-www
 
     - name: Sync Capacitor Android
-      run: npx cap sync android --force
+      run: npx cap sync android
 
     - name: Build APK (debug)
       working-directory: android
