@@ -26,5 +26,7 @@ jobs:
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PRASHANT }}
+          # Use a CI token instead of a service account to avoid creating a billing-enabled service account.
+          # Generate token locally with: `firebase login:ci` and add it as repository secret `FIREBASE_TOKEN`.
+          firebaseToken: ${{ secrets.FIREBASE_TOKEN }}
           projectId: prashant-75ef7
