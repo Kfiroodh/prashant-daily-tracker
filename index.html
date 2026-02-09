@@ -28,6 +28,11 @@
           </div>
 
           <div class="form-group">
+            <label>पासवर्ड:</label>
+            <input type="password" id="authPassword" placeholder="कम से कम 6 अक्षर" required>
+          </div>
+
+          <div class="form-group">
             <label>आपका नाम:</label>
             <input type="text" id="authName" placeholder="आपका नाम" required>
           </div>
@@ -307,6 +312,10 @@
 
   <!-- PRASHANT Scripts -->
   <script src="firebase-config.js"></script>
+  <!-- PocketBase client (CDN) -->
+  <script src="https://unpkg.com/pocketbase/dist/pocketbase.umd.js"></script>
+  <script src="pb-config.js"></script>
+  <script src="auth-pb.js"></script>
   <script src="ai-engine.js"></script>
   <script src="app.js"></script>
   <script src="simple-chat.js"></script>
