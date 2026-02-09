@@ -102,6 +102,7 @@ class PrashantApp {
     this.initializeTracking(user);
     this.initializeChatFeature(user);
     this.initializeFriendsFeature(user);
+    this.initializeGroupChatFeature(user);
     this.initializeSharingFeature(user);
   }
 
@@ -151,8 +152,22 @@ class PrashantApp {
    * Initialize Friends Feature
    */
   initializeFriendsFeature(user) {
-    this.loadFriendsList(user);
-    this.setupFriendActions(user);
+    if (typeof FriendsManager !== 'undefined') {
+      if (!window.friendsManager) {
+        window.friendsManager = new FriendsManager(user);
+      }
+    }
+  }
+
+  /**
+   * Initialize Group Chat Feature
+   */
+  initializeGroupChatFeature(user) {
+    if (typeof GroupChatManager !== 'undefined') {
+      if (!window.groupChatManager) {
+        window.groupChatManager = new GroupChatManager(user);
+      }
+    }
   }
 
   /**
