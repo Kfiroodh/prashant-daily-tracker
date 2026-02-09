@@ -87,38 +87,25 @@ class ShareManager {
     }
 
     try {
-      let fileUrl = null;
       let fileName = null;
 
-      // Upload file if selected
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('description', description);
+      formData.append('sharedBy', this.user.uid);
+      formData.append('sharedByName', this.user.displayName || this.user.name || 'User');
+      formData.append('likes', 0);
+
       if (fileInput.files.length > 0) {
         const file = fileInput.files[0];
-        const storage = firebase.storage();
-        const storagePath = `shared/${Date.now()}_${file.name}`;
-
-        const snapshot = await storage.ref(storagePath).put(file);
-        fileUrl = await snapshot.ref.getDownloadURL();
+        formData.append('file', file);
         fileName = file.name;
       }
 
-      const db = firebase.firestore();
-      const sharedItem = {
-        id: Date.now(),
-        title: title,
-        description: description,
-        fileUrl: fileUrl,
-        fileName: fileName,
-        isImage: fileInput.files[0]?.type.startsWith('image/'),
-        sharedBy: this.user.uid,
-        sharedByName: this.user.displayName,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        likes: 0,
-      };
-
-      await db.collection('shared').add(sharedItem);
+      // Create record in PocketBase
+      await pb.collection('shared').create(formData);
 
       alert('✅ Share कर दिया गया!');
-      
       // Reset form
       document.getElementById('shareTitle').value = '';
       document.getElementById('shareDescription').value = '';
@@ -128,7 +115,7 @@ class ShareManager {
       this.loadSharedItems();
 
     } catch (error) {
-      console.error('❌ Share error:', error);
+      console.error('❌ PB Share error:', error);
       alert('Share करने में error');
     }
   }
@@ -138,31 +125,25 @@ class ShareManager {
    */
   async loadSharedItems() {
     try {
-      const db = firebase.firestore();
-
-      // Shared with me
+      // Fetch from PocketBase
       const sharedWithMeDiv = document.getElementById('sharedWithMe');
-      const allShared = await db.collection('shared').orderBy('timestamp', 'desc').get();
+      const mySharedDiv = document.getElementById('myShared');
+
+      const page = 1;
+      const perPage = 50;
+      const res = await pb.collection('shared').getList(page, perPage, { sort: '-created' });
 
       if (sharedWithMeDiv) {
         sharedWithMeDiv.innerHTML = '';
-        allShared.forEach((doc) => {
-          const item = doc.data();
-          if (item.sharedBy !== this.user.uid) {
-            this.renderSharedItem(item, sharedWithMeDiv);
-          }
+        res.items.forEach((item) => {
+          if (item.sharedBy !== this.user.uid) this.renderSharedItem(item, sharedWithMeDiv);
         });
       }
 
-      // My shared
-      const mySharedDiv = document.getElementById('myShared');
       if (mySharedDiv) {
         mySharedDiv.innerHTML = '';
-        allShared.forEach((doc) => {
-          const item = doc.data();
-          if (item.sharedBy === this.user.uid) {
-            this.renderSharedItem(item, mySharedDiv);
-          }
+        res.items.forEach((item) => {
+          if (item.sharedBy === this.user.uid) this.renderSharedItem(item, mySharedDiv);
         });
       }
 
@@ -179,14 +160,14 @@ class ShareManager {
     itemDiv.className = 'shared-item';
     itemDiv.innerHTML = `
       <div class="item-header">
-        <h3>${item.title}</h3>
-        <small>${new Date(item.timestamp.toDate()).toLocaleDateString('hi-IN')}</small>
+        <h3>${this.escapeHtml(item.title)}</h3>
+        <small>${new Date(item.created).toLocaleDateString('hi-IN')}</small>
       </div>
-      ${item.description ? `<p>${item.description}</p>` : ''}
-      ${item.isImage ? `<img src="${item.fileUrl}" style="max-width: 100%; border-radius: 8px; margin: 10px 0;">` : ''}
-      ${item.fileUrl && !item.isImage ? `<a href="${item.fileUrl}" target="_blank" class="btn-secondary">📥 Download ${item.fileName}</a>` : ''}
+      ${item.description ? `<p>${this.escapeHtml(item.description)}</p>` : ''}
+      ${item.file ? `<img src="${pb.getFileUrl(item, 'file')}" style="max-width: 100%; border-radius: 8px; margin: 10px 0;">` : ''}
+      ${item.file && !item.file?.includes('image') ? `<a href="${pb.getFileUrl(item, 'file')}" target="_blank" class="btn-secondary">📥 Download</a>` : ''}
       <div class="item-footer">
-        <small>🙋 ${item.sharedByName}</small>
+        <small>🙋 ${this.escapeHtml(item.sharedByName)}</small>
         <button class="btn-icon" onclick="alert('❤️ Liked!')">❤️</button>
       </div>
     `;

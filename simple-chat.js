@@ -1,13 +1,13 @@
 /**
- * PRASHANT - Simple Chat Manager
- * Real-time messaging with Firestore
+ * PRASHANT - Simple Chat Manager (PocketBase)
+ * Uses PocketBase `messages` collection and Storage for files
  */
 
 class ChatManager {
   constructor(user) {
     this.user = user;
     this.currentChatId = null;
-    this.unsubscribe = null;
+    this.subscription = null;
     this.setupListeners();
   }
 
@@ -74,6 +74,7 @@ class ChatManager {
     if (chatFriendName) chatFriendName.textContent = friendName;
 
     this.loadMessages();
+    this.subscribeToMessages();
   }
 
   /**
@@ -86,9 +87,9 @@ class ChatManager {
 
     if (chatWindow) chatWindow.style.display = 'none';
     if (noChatSelected) noChatSelected.style.display = 'block';
-
-    if (this.unsubscribe) {
-      this.unsubscribe();
+    if (this.subscription) {
+      try { this.subscription.unsubscribe(); } catch(e) {}
+      this.subscription = null;
     }
   }
 
@@ -97,28 +98,20 @@ class ChatManager {
    */
   loadMessages() {
     try {
-      const db = firebase.firestore();
       const messagesContainer = document.getElementById('messagesContainer');
+      messagesContainer.innerHTML = '';
 
-      if (this.unsubscribe) {
-        this.unsubscribe();
-      }
+      // Fetch existing messages for this chat from PocketBase
+      const page = 1;
+      const perPage = 200;
+      const filter = `chatId="${this.currentChatId}"`;
 
-      this.unsubscribe = db
-        .collection('chats')
-        .doc(this.currentChatId)
-        .collection('messages')
-        .orderBy('timestamp', 'asc')
-        .onSnapshot((snapshot) => {
-          messagesContainer.innerHTML = '';
-
-          snapshot.forEach((doc) => {
-            const msg = doc.data();
-            this.renderMessage(msg, messagesContainer);
-          });
-
+      pb.collection('messages').getList(page, perPage, { filter, sort: 'created' })
+        .then((res) => {
+          res.items.forEach((msg) => this.renderMessage(msg, messagesContainer));
           messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        });
+        })
+        .catch((err) => console.error('❌ PB load messages error', err));
 
     } catch (error) {
       console.error('❌ Error loading messages:', error);
@@ -130,24 +123,28 @@ class ChatManager {
    */
   renderMessage(msg, container) {
     const msgDiv = document.createElement('div');
-    const isOwn = msg.senderId === this.user.uid;
+    const isOwn = (msg.senderId === this.user.uid) || (msg.senderId === this.user?.uid);
     msgDiv.className = `message ${isOwn ? 'own' : 'other'}`;
 
     let content = `
       <div class="msg-bubble">
-        <div class="msg-sender">${msg.senderName}</div>
+        <div class="msg-sender">${this.escapeHtml(msg.senderName || msg.sender)}</div>
     `;
 
     if (msg.type === 'text') {
-      content += `<div>${this.escapeHtml(msg.text)}</div>`;
+      content += `<div>${this.escapeHtml(msg.text || msg.body || '')}</div>`;
     } else if (msg.type === 'image') {
-      content += `<img src="${msg.fileUrl}" style="max-width: 200px; border-radius: 8px;">`;
+      const url = pb.getFileUrl(msg, 'file');
+      content += `<img src="${url}" style="max-width: 200px; border-radius: 8px;">`;
     } else if (msg.type === 'file') {
-      content += `<a href="${msg.fileUrl}" target="_blank">📄 ${msg.fileName}</a>`;
+      const url = pb.getFileUrl(msg, 'file');
+      content += `<a href="${url}" target="_blank">📄 ${this.escapeHtml(msg.fileName || msg.file || '')}</a>`;
     }
 
+    const time = msg.created ? new Date(msg.created).toLocaleTimeString('hi-IN') : '';
+
     content += `
-        <div class="msg-time">${new Date(msg.timestamp.toDate()).toLocaleTimeString('hi-IN')}</div>
+        <div class="msg-time">${time}</div>
       </div>
     `;
 
@@ -161,26 +158,21 @@ class ChatManager {
   async sendMessage() {
     const input = document.getElementById('messageInput');
     const text = input.value.trim();
-
     if (!text || !this.currentChatId) return;
 
     try {
-      const db = firebase.firestore();
-      await db
-        .collection('chats')
-        .doc(this.currentChatId)
-        .collection('messages')
-        .add({
-          senderId: this.user.uid,
-          senderName: this.user.displayName || 'User',
-          type: 'text',
-          text: text,
-          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        });
+      const data = {
+        chatId: this.currentChatId,
+        senderId: this.user.uid,
+        senderName: this.user.displayName || this.user.name || 'User',
+        type: 'text',
+        text: text,
+      };
 
+      await pb.collection('messages').create(data);
       input.value = '';
     } catch (error) {
-      console.error('❌ Error sending message:', error);
+      console.error('❌ PB Error sending message:', error);
     }
   }
 
@@ -190,35 +182,52 @@ class ChatManager {
   async uploadFile(event, type) {
     const file = event.target.files[0];
     if (!file || !this.currentChatId) return;
-
     try {
-      const storage = firebase.storage();
-      const fileName = `${Date.now()}_${file.name}`;
-      const path = type === 'photo' ? `photos/${fileName}` : `files/${fileName}`;
+      const formData = new FormData();
+      formData.append('chatId', this.currentChatId);
+      formData.append('senderId', this.user.uid);
+      formData.append('senderName', this.user.displayName || this.user.name || 'User');
+      formData.append('type', type === 'photo' ? 'image' : 'file');
+      formData.append('file', file);
 
-      const snapshot = await storage.ref(path).put(file);
-      const fileUrl = await snapshot.ref.getDownloadURL();
-
-      const db = firebase.firestore();
-      await db
-        .collection('chats')
-        .doc(this.currentChatId)
-        .collection('messages')
-        .add({
-          senderId: this.user.uid,
-          senderName: this.user.displayName || 'User',
-          type: type === 'photo' ? 'image' : 'file',
-          fileUrl: fileUrl,
-          fileName: file.name,
-          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        });
+      // PocketBase supports FormData for file upload
+      await pb.collection('messages').create(formData);
 
       event.target.value = '';
       alert('✅ File shared!');
     } catch (error) {
-      console.error('❌ Upload error:', error);
+      console.error('❌ PB Upload error:', error);
       alert('Upload failed');
     }
+  }
+
+  subscribeToMessages() {
+    // Unsubscribe previous
+    if (this.subscription) {
+      try { this.subscription.unsubscribe(); } catch(e){}
+      this.subscription = null;
+    }
+
+    // Subscribe to collection events and filter by chatId
+    this.subscription = pb.collection('messages').subscribe('*', (e) => {
+      try {
+        const rec = e.record;
+        if (!rec || rec.chatId !== this.currentChatId) return;
+
+        const messagesContainer = document.getElementById('messagesContainer');
+        // Simple handling: append new/updated records
+        if (e.action === 'create') {
+          this.renderMessage(rec, messagesContainer);
+          messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+        // For update/delete, a full reload is simpler
+        if (e.action === 'update' || e.action === 'delete') {
+          this.loadMessages();
+        }
+      } catch (err) {
+        console.error('❌ PB subscription handler error', err);
+      }
+    });
   }
 
   /**
