@@ -3,112 +3,314 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>PRASHANT — AI Productivity Tracker</title>
+  <title>PRASHANT — AI Productivity Tracker & Social Network</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="app">
-    <header class="header">
-      <div class="brand">
-        <div class="logo">P</div>
-        <div>
+    <!-- ========== AUTHENTICATION SCREEN ========== -->
+    <div id="authScreen" class="screen active-screen">
+      <div class="auth-container">
+        <div class="auth-header">
+          <div class="logo-big">P</div>
           <h1>PRASHANT</h1>
-          <div class="subtitle">AI Productivity Tracker — अपनी प्रगति ट्रैक करें</div>
+          <p class="subtitle">AI Productivity Tracker & Social Network</p>
+        </div>
+
+        <div class="auth-form">
+          <h2>स्वागत है! 👋</h2>
+          <p class="auth-subtitle">अपने दोस्तों के साथ अपनी productivity track करें</p>
+
+          <div class="form-group">
+            <label>ईमेल या फोन:</label>
+            <input type="email" id="authEmail" placeholder="your@email.com" required>
+          </div>
+
+          <div class="form-group">
+            <label>आपका नाम:</label>
+            <input type="text" id="authName" placeholder="आपका नाम" required>
+          </div>
+
+          <button id="googleSignInBtn" class="btn-primary full-width">
+            🔐 Google से लॉगिन करें
+          </button>
+
+          <button id="emailSignInBtn" class="btn-secondary full-width" style="margin-top: 10px;">
+            ईमेल से लॉगिन
+          </button>
+
+          <div class="auth-footer">
+            <p>✨ Powered by PRASHANT AI</p>
+          </div>
         </div>
       </div>
-    </header>
+    </div>
 
-    <!-- Productivity Score & Daily Motivation -->
-    <section id="aiDashboard" class="card dashboard-card">
-      <div class="productivity-score">
-        <div class="score-circle">
-          <svg viewBox="0 0 200 200">
-            <circle cx="100" cy="100" r="90" class="score-bg"></circle>
-            <circle cx="100" cy="100" r="90" class="score-progress" id="scoreCircle"></circle>
-          </svg>
-          <div class="score-text">
-            <div class="score-number" id="scoreNumber">0</div>
-            <div class="score-label">Productivity</div>
+    <!-- ========== MAIN APP (After Login) ========== -->
+    <div id="mainApp" class="screen">
+      <!-- Header with Navigation -->
+      <header class="app-header">
+        <div class="header-left">
+          <div class="logo-small">P</div>
+          <h1>PRASHANT</h1>
+        </div>
+        <div class="header-right">
+          <div class="unread-badge" id="unreadBadge" style="display: none;">
+            <span id="unreadCount">0</span>
           </div>
+          <button id="userMenuBtn" class="user-menu">
+            <span id="userName">User</span> ▼
+          </button>
         </div>
-        <div class="motivation-box">
-          <div class="motivation-text" id="motivationText">शुरुआत करें!</div>
-        </div>
+      </header>
+
+      <!-- Navigation Tabs -->
+      <div class="nav-tabs">
+        <button class="nav-tab active" data-tab="tracker">📊 Tracker</button>
+        <button class="nav-tab" data-tab="chat">💬 Chat</button>
+        <button class="nav-tab" data-tab="share">📤 Share</button>
+        <button class="nav-tab" data-tab="friends">👥 Friends</button>
       </div>
-    </section>
 
-    <!-- Main Grid -->
-    <main class="grid">
-      <section class="card form-card">
-        <h2 class="card-title">📝 आज का डेटा</h2>
-        <form id="entryForm">
-          <div class="row">
-            <label class="full">तारीख: <input type="date" id="date" required></label>
-          </div>
-
-          <div id="studySessions">
-            <h3>Study Sessions</h3>
-          </div>
-          <div class="row"><button type="button" id="addSession" class="btn-secondary">+ नया session</button></div>
-
-          <div class="row two">
-            <label>Phone Hours: <input type="number" id="phoneHours" min="0" step="0.25" value="0"></label>
-            <label>Sleep Hours: <input type="number" id="sleepHours" min="0" step="0.25" value="0"></label>
-          </div>
-
-          <!-- Mood Tracking -->
-          <div class="mood-selector">
-            <label>आपका मूड:</label>
-            <div class="mood-options">
-              <button type="button" class="mood-btn" data-mood="1" title="बहुत खराब">😢</button>
-              <button type="button" class="mood-btn" data-mood="2" title="खराब">😕</button>
-              <button type="button" class="mood-btn" data-mood="3" title="सामान्य">😐</button>
-              <button type="button" class="mood-btn" data-mood="4" title="अच्छा">🙂</button>
-              <button type="button" class="mood-btn" data-mood="5" title="बहुत अच्छा">😄</button>
+      <!-- ========== TAB 1: PRODUCTIVITY TRACKER ========== -->
+      <div id="trackerTab" class="tab-content active">
+        <!-- Productivity Score & Daily Motivation -->
+        <section id="aiDashboard" class="card dashboard-card">
+          <div class="productivity-score">
+            <div class="score-circle">
+              <svg viewBox="0 0 200 200">
+                <circle cx="100" cy="100" r="90" class="score-bg"></circle>
+                <circle cx="100" cy="100" r="90" class="score-progress" id="scoreCircle"></circle>
+              </svg>
+              <div class="score-text">
+                <div class="score-number" id="scoreNumber">0</div>
+                <div class="score-label">Productivity</div>
+              </div>
             </div>
-            <input type="hidden" id="mood" value="0">
+            <div class="motivation-box">
+              <div class="motivation-text" id="motivationText">शुरुआत करें!</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Add Entry Form -->
+        <main class="grid">
+          <section class="card form-card">
+            <h2 class="card-title">📝 आज का डेटा</h2>
+            <form id="entryForm">
+              <div class="row">
+                <label class="full">तारीख: <input type="date" id="date" required></label>
+              </div>
+
+              <div id="studySessions">
+                <h3>Study Sessions</h3>
+              </div>
+              <div class="row"><button type="button" id="addSession" class="btn-secondary">+ नया session</button></div>
+
+              <div class="row two">
+                <label>Phone Hours: <input type="number" id="phoneHours" min="0" step="0.25" value="0"></label>
+                <label>Sleep Hours: <input type="number" id="sleepHours" min="0" step="0.25" value="0"></label>
+              </div>
+
+              <!-- Mood Tracking -->
+              <div class="mood-selector">
+                <label>आपका मूड:</label>
+                <div class="mood-options">
+                  <button type="button" class="mood-btn" data-mood="1" title="बहुत खराब">😢</button>
+                  <button type="button" class="mood-btn" data-mood="2" title="खराब">😕</button>
+                  <button type="button" class="mood-btn" data-mood="3" title="सामान्य">😐</button>
+                  <button type="button" class="mood-btn" data-mood="4" title="अच्छा">🙂</button>
+                  <button type="button" class="mood-btn" data-mood="5" title="बहुत अच्छा">😄</button>
+                </div>
+                <input type="hidden" id="mood" value="0">
+              </div>
+
+              <label>Notes:
+                <textarea id="notes" rows="2" placeholder="आज की पढ़ाई के बारे में नोट्स..."></textarea>
+              </label>
+
+              <div class="actions"><button type="submit" id="saveBtn" class="btn-primary">Save Entry</button></div>
+            </form>
+          </section>
+
+          <aside class="card summary-card">
+            <h2 class="card-title">📊 Summary</h2>
+            <div id="summary"></div>
+          </aside>
+        </main>
+
+        <!-- AI Insights -->
+        <section class="card insights-card">
+          <h2 class="card-title">🤖 AI Insights</h2>
+          <div id="aiInsights" class="insights-container">
+            <p class="small">डेटा जोड़ें और AI से अंतर्दृष्टि प्राप्त करें।</p>
+          </div>
+        </section>
+
+        <!-- Weekly Summary -->
+        <section class="card weekly-summary-card">
+          <h2 class="card-title">📈 सप्ताह का विश्लेषण</h2>
+          <div id="weeklySummary" class="weekly-content">
+            <p class="small">अभी तक कोई साप्ताहिक डेटा नहीं।</p>
+          </div>
+        </section>
+
+        <!-- History -->
+        <section class="card history-card">
+          <h2 class="card-title">📅 History</h2>
+          <div id="history"></div>
+        </section>
+      </div>
+
+      <!-- ========== TAB 2: CHAT ========== -->
+      <div id="chatTab" class="tab-content">
+        <div class="chat-container">
+          <div class="chat-list-panel">
+            <div class="panel-header">
+              <h2>💬 Messages</h2>
+              <button id="startChatBtn" class="btn-secondary">+ नया Chat</button>
+            </div>
+            <div id="chatList" class="chat-list"></div>
           </div>
 
-          <label>Notes:
-            <textarea id="notes" rows="2" placeholder="आज की पढ़ाई के बारे में कुछ नोट्स..."></textarea>
-          </label>
+          <div class="chat-panel">
+            <div id="noChatSelected" class="no-chat-selected">
+              <div style="text-align: center; color: var(--muted);">
+                <h3>कोई Chat नहीं खुला</h3>
+                <p>किसी दोस्त के साथ बात करने के लिए Chat चुनें</p>
+              </div>
+            </div>
 
-          <div class="actions"><button type="submit" id="saveBtn" class="btn-primary">Save Entry</button></div>
-        </form>
-      </section>
+            <div id="chatWindow" class="chat-window" style="display: none;">
+              <div class="chat-header">
+                <h3 id="chatFriendName">Friend</h3>
+                <button id="closeChatBtn" class="close-btn">×</button>
+              </div>
 
-      <aside class="card summary-card">
-        <h2 class="card-title">📊 Summary</h2>
-        <div id="summary"></div>
-      </aside>
-    </main>
+              <div id="messagesContainer" class="messages-container"></div>
 
-    <!-- AI Insights Section -->
-    <section class="card insights-card">
-      <h2 class="card-title">🤖 AI Insights</h2>
-      <div id="aiInsights" class="insights-container">
-        <p class="small">डेटा जोड़ें और AI से अंतर्दृष्टि प्राप्त करें।</p>
+              <div class="chat-input-area">
+                <textarea id="messageInput" placeholder="अपना संदेश लिखें..." rows="2"></textarea>
+                <div class="input-actions">
+                  <button id="uploadFileBtn" title="File upload" class="btn-icon">📎</button>
+                  <button id="uploadPhotoBtn" title="Photo upload" class="btn-icon">📷</button>
+                  <button id="sendMessageBtn" class="btn-primary">भेजें ➤</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </section>
 
-    <!-- Weekly Summary -->
-    <section class="card weekly-summary-card">
-      <h2 class="card-title">📈 सप्ताह का विश्लेषण</h2>
-      <div id="weeklySummary" class="weekly-content">
-        <p class="small">अभी तक कोई साप्ताहिक डेटा नहीं।</p>
+      <!-- ========== TAB 3: SHARE & UPLOAD ========== -->
+      <div id="shareTab" class="tab-content">
+        <div class="share-container">
+          <section class="card">
+            <h2 class="card-title">📤 Photos & Notes शेयर करें</h2>
+            
+            <div class="share-form">
+              <div class="form-group">
+                <label>Title:</label>
+                <input type="text" id="shareTitle" placeholder="क्या शेयर कर रहे हो?">
+              </div>
+
+              <div class="form-group">
+                <label>Description:</label>
+                <textarea id="shareDescription" placeholder="विवरण जोड़ें..." rows="3"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label>Photo या File जोड़ें:</label>
+                <div class="upload-area" id="uploadArea">
+                  <div class="upload-icon">📸</div>
+                  <p>यहाँ Image या File drag करें</p>
+                  <p class="small">या</p>
+                  <input type="file" id="shareFileInput" accept="image/*,.pdf,.doc,.docx,.txt" hidden>
+                  <button type="button" id="browseFileBtn" class="btn-secondary">फाइल चुनें</button>
+                </div>
+                <div id="uploadPreview"></div>
+              </div>
+
+              <div class="form-group">
+                <label>किसे शेयर करें:</label>
+                <div id="friendsCheckboxes" class="friends-list-checkboxes"></div>
+              </div>
+
+              <button id="shareBtn" class="btn-primary full-width">🚀 Share करें</button>
+            </div>
+          </section>
+
+          <!-- Shared With Me -->
+          <section class="card">
+            <h2 class="card-title">📥 मेरे साथ Shared</h2>
+            <div id="sharedWithMe" class="shared-items-grid"></div>
+          </section>
+
+          <!-- My Shared Items -->
+          <section class="card">
+            <h2 class="card-title">📤 मेरी Shared चीजें</h2>
+            <div id="myShared" class="shared-items-grid"></div>
+          </section>
+        </div>
       </div>
-    </section>
 
-    <!-- History Section -->
-    <section class="card history-card">
-      <h2 class="card-title">📅 History</h2>
-      <div id="history"></div>
-    </section>
+      <!-- ========== TAB 4: FRIENDS ========== -->
+      <div id="friendsTab" class="tab-content">
+        <div class="friends-container">
+          <section class="card">
+            <h2 class="card-title">👥 मेरे दोस्त</h2>
+            
+            <div class="add-friend-form">
+              <input type="email" id="friendEmail" placeholder="दोस्त की ईमेल डालें">
+              <button id="addFriendBtn" class="btn-primary">✚ Add Friend</button>
+            </div>
+
+            <div id="friendsList" class="friends-list-container"></div>
+          </section>
+
+          <section class="card">
+            <h2 class="card-title">📊 Friend Stats</h2>
+            <div id="friendStats" class="friend-stats"></div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Menu Dropdown -->
+    <div id="userMenu" class="user-menu-dropdown" style="display: none;">
+      <div class="menu-header">
+        <span id="menuUserName">User</span>
+        <span id="menuUserEmail">email@example.com</span>
+      </div>
+      <button id="viewProfileBtn" class="menu-item">👤 Profile</button>
+      <button id="settingsBtn" class="menu-item">⚙️ Settings</button>
+      <hr>
+      <button id="logoutBtn" class="menu-item danger">🚪 Logout</button>
+    </div>
+
+    <!-- Hidden file inputs -->
+    <input type="file" id="chatPhotoInput" accept="image/*" hidden>
+    <input type="file" id="chatFileInput" accept=".pdf,.doc,.docx,.txt,.jpg,.png" hidden>
+
+    <!-- Loading Indicator -->
+    <div id="loadingIndicator" class="loading-spinner" style="display: none;"></div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js"></script>
+
+  <!-- PRASHANT Scripts -->
+  <script src="firebase-config.js"></script>
   <script src="ai-engine.js"></script>
   <script src="app.js"></script>
+  <script src="simple-chat.js"></script>
+  <script src="share.js"></script>
+  <script src="prashant-app.js"></script>
 </body>
 </html>

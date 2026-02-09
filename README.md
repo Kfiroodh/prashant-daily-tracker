@@ -1,252 +1,368 @@
-# PRASHANT — AI-Powered Productivity Tracker 🚀
+# PRASHANT — AI-Powered Productivity Tracker + Social Chat 🚀
 
-**एक आधुनिक, बुद्धिमान दैनिक गतिविधि ट्रैकर जो आपकी उत्पादकता विश्लेषण और सुधार में मदद करता है।**
+**एक आधुनिक, बुद्धिमान दैनिक गतिविधि ट्रैकर जो आपकी उत्पादकता विश्लेषण करता है और दोस्तों के साथ शेयर करने देता है।**
 
 ---
 
-## ✨ मुख्य Features
+## ✨ नई Features (Social + Chat)
+
+### 🔐 Google Login
+- Google account से सीधे login करें
+- Profile auto-fill होता है
+- One-click sign-in
+- Secure Firebase authentication
+
+### 💬 Live Chat
+- Friends के साथ **real-time chat**
+- Text messages
+- Photo sharing (📸)
+- File sharing (📎)
+- Timestamps के साथ सभी messages
+
+### 📤 Photo & File Upload
+- Chat में तुरंत photos upload करें
+- Documents share करें (PDF, Word, Text)
+- Drag-and-drop support
+- Cloud Storage में safe रहता है
+
+### 📝 Notes Sharing
+- Notes बनाएं और share करें
+- Activities share करें friends के साथ
+- Title + Description के साथ
+- Multiple friends को एक साथ share करें
+
+### 👥 Friends Management
+- Email से दोस्त जोड़ें
+- Friends list देखें
+- Friend-specific stats देखें
+- One-click chat open करें
+
+### 📊 Shared Content Gallery
+- सब कुछ एक जगह में
+- Photos, files, notes
+- Likes और comments (ready for future)
+- Download करने की सुविधा
+
+---
+
+## 🎯 Original Features (Updated)
 
 ### 1. 📝 Daily Activity Tracking
-- **Study Sessions**: विषय और घंटे रिकॉर्ड करें
-- **Sleep & Phone Usage**: नींद और फोन के घंटे ट्रैक करें  
-- **Mood Tracking**: अपना दैनिक मूड 😢😕😐🙂😄 रिकॉर्ड करें
-- **Notes**: अतिरिक्त नोट्स जोड़ें
+- ✅ Study Sessions + Topics
+- ✅ Sleep & Phone Usage
+- ✅ Mood Tracking (😢😕😐🙂😄)
+- ✅ Personal Notes
 
 ### 2. 🤖 AI-Powered Insights
-- **Productivity Score**: 0-100 स्कोर आपकी productivity का
-- **AI Insights**: 
-  - Study consistency analysis
-  - Sleep regularity patterns
-  - Phone usage detection
-  - Weekly trend analysis
-- **Motivational Messages**: आपके प्रदर्शन पर आधारित व्यक्तिगत प्रेरणा
-- **Smart Recommendations**: अनुकूलित सुझाव जैसे:
-  - "कम फोन, ज्यादा किताब"
-  - "निश्चित समय पर पढ़ाई करें"
-  - "रात 11 बजे तक सो जाएं"
+- ✅ Productivity Score (0-100)
+- ✅ Study Consistency Analysis
+- ✅ Sleep Patterns
+- ✅ Phone Usage Detection
+- ✅ Weekly Trends
+- ✅ Personalized Motivations
 
 ### 3. 📊 Advanced Analytics
-- **Weekly Summary**: 
-  - कुल पढ़ाई घंटे
-  - औसत प्रति दिन
-  - निरंतरता स्कोर
-  - प्रवृत्ति विश्लेषण (↑ सुधार / ↓ गिरावट)
-- **7-day & 30-day Reports**: Interactive bar charts
-- **Subject-wise Breakdown**: Pie/Doughnut charts
-- **Best/Worst Day Analysis**: आपके पैटर्न को समझें
+- ✅ 7-day & 30-day Reports
+- ✅ Subject-wise Breakdown
+- ✅ Interactive Charts
+- ✅ Weekly Summary
 
-### 4. 🎯 Goal Management  
-- **Weekly Goals**: साप्ताहिक study लक्ष्य सेट करें
-- **Progress Tracking**: वास्तविक समय प्रगति प्रतिशत
-- **Goal Visualization**: किसी भी समय अपने लक्ष्य की स्थिति देखें
-
-### 5. 🎨 Modern UI/UX
-- **Beautiful Dashboard**: Productivity score visualization
-- **Smooth Animations**: Fade-in, slide effects
-- **Dark-friendly**: आरामदायक रंग पैलेट
-- **Fully Responsive**: Mobile, tablet, desktop पर perfect
-- **Mood Emojis**: Visual engagement
-
-### 6. 💾 Data Persistence
-- **Browser Storage**: सभी data `localStorage` में सुरक्षित
-- **Offline Support**: Internet के बिना भी काम करता है
-- **No Login**: सेटअप के बिना तुरंत उपयोग करें
+### 4. 🎯 Goal Management
+- ✅ Weekly Goals
+- ✅ Progress Tracking
+- ✅ Goal Visualization
 
 ---
 
-## 📱 कैसे शुरू करें
+## 🚀 Getting Started
 
-### Web Version (Browser में)
-1. `index.html` को ब्राउज़र में खोलें
-2. आज की तारीख चुनें
-3. Study sessions जोड़ें (विषय + घंटे)
-4. मूड सेलेक्ट करें 😊
-5. Sleep + Phone hours भरें
-6. "Save Entry" दबाएं ✅
+### 1️⃣ Firebase Setup (IMPORTANT!)
+**यह एक बार करना है।**
 
-**तुरंत शुरू करें - कोई साइनअप नहीं!**
+1. [Firebase Console](https://console.firebase.google.com) खोलें
+2. New Project बनाएं (free tier)
+3. Google Auth enable करें
+4. Firestore Database create करें
+5. Cloud Storage enable करें
+6. अपना **Firebase Config** `firebase-config.js` में डालें
 
-### Android APK (Mobile App)
-**GitHub Actions से automatic build होता है!** नीचे देखें।
+👉 **Detailed Guide**: [FIREBASE_SETUP.md](FIREBASE_SETUP.md)
 
----
-
-## 🔧 Technical Details
-
-### आर्किटेक्चर
-```
-├── index.html          → UI template (HTML5)
-├── style.css           → Responsive design + animations
-├── app.js              → Core logic & state management (163 lines)
-├── ai-engine.js        → AI insights & analytics (350+ lines)
-└── package.json        → Capacitor + Dependencies
-```
-
-### Data Structure
-```javascript
-{
-  id: 1707500000000,
-  date: "2026-02-09",
-  sessions: [
-    { subject: "Maths", hours: 2.5 },
-    { subject: "Physics", hours: 1.5 }
-  ],
-  sleepHours: 7,
-  phoneHours: 2,
-  mood: 4,  // 1-5 scale
-  notes: "Good study session",
-  timestamp: "2026-02-09T10:00:00Z"
-}
-```
-
-### AI Engine Features
-- **Pattern Detection**: Study consistency calculation
-- **Trend Analysis**: Weekly improvement/decline tracking
-- **Insight Generation**: Context-aware feedback in Hindi & English
-- **Score Calculation**: Weighted productivity metrics
-  - Study (35%), Sleep (25%), Consistency (25%), Phone Usage (15%)
-
----
-
-## 📦 APK Build & Installation
-
-### Automated Build (via GitHub Actions) ⭐ Recommended
-Your code automatically builds APK when pushed to GitHub:
-
-1. **Make changes** locally
-2. **Push to GitHub**: `git push origin main`
-3. **Wait 5-15 minutes** for automatic build
-4. **Download APK** from:
-   - GitHub → Actions → Latest run → Artifacts → `prashant-app-debug`
-5. **Transfer to phone** via USB/Cloud
-6. **Tap to install** on Android (allow unknown sources)
-
-### Manual Local Build (Windows)
-**Prerequisites:**
-- Node.js 18+
-- Java 17 (Temurin)
-- Android SDK
-
-**Step-by-step:**
+### 2️⃣ Browser में उपयोग करें
 ```bash
-cd "C:\Users\skris\Desktop\prashant"
+# Start local server
+npx http-server -p 8000
+
+# Browser खोलें
+localhost:8000
+```
+
+### 3️⃣ Google से Login करें
+1. "🔐 Google से लॉगिन करें" बटन पर क्लिक करें
+2. Google account चुनें
+3. **Boom! 🎉 आप अंदर हे**
+
+### 4️⃣ Features Explore करें
+- **📊 Tracker**: अपनी activity record करें
+- **💬 Chat**: Friends को message करें और files share करें
+- **📤 Share**: Photos और notes share करें
+- **👥 Friends**: Dost add करें
+
+---
+
+## 📱 Android Phone में Install करें
+
+### Option 1: GitHub Actions (Automatic) ⭐
+```bash
+# अपना changes push करें
+git push origin main
+
+# 10-15 minutes का wait करें
+# GitHub → Actions → Download APK artifact
+
+# APK को phone में transfer करें
+# Tap करके install करें
+# Allow unknown sources अगर पूछे
+```
+
+### Option 2: Local Build
+```bash
+# Prerequisites: Java 17, Android SDK, Node.js
+
 npm install
 npm run prepare-www
 npx cap sync android
 cd android && gradlew assembleDebug
 ```
 
-APK location: `android\app\build\outputs\apk\debug\app-debug.apk`
-
 ---
 
-## 📊 Sample AI Insights Output
+## 📊 App Architecture
 
 ```
-🤖 AI INSIGHTS:
-
-⭐ Excellent Consistency!
-"आप पिछले 7 दिनों में बहुत नियमित हैं। औसतन 4.2 घंटे पढ़ाई प्रति दिन।"
-
-✅ Perfect Sleep
-"बेहतरीन! 7.5 घंटे की नींद आपके लिए आदर्श है।"
-
-📱 Good Digital Balance
-"प्रति दिन 2.1 घंटे फोन। अच्छा संतुलन रखें।"
-
-📈 Improving Trend
-"बधाई! आपकी पढ़ाई में 23.5% की बढ़ोतरी हुई है।"
-
-PRODUCTIVITY SCORE: 78/100
+PRASHANT/
+├── firebase-config.js      # Firebase setup
+├── auth.js                 # (Legacy - अब prashant-app.js में)
+├── prashant-app.js         # Main app logic
+├── simple-chat.js          # Chat functionality
+├── share.js                # Sharing/upload
+├── ai-engine.js            # AI insights
+├── app.js                  # Tracker logic
+├── index.html              # UI template
+├── style.css               # Styling (1000+ lines)
+└── FIREBASE_SETUP.md       # Firebase guide
 ```
 
 ---
 
-## 🚀 Build Workflow
+## 🔥 Firebase Integration
 
-### GitHub Actions CI/CD
-**File**: `.github/workflows/android-build.yml`
+### Data Structure
 
-Steps:
-1. ✅ Checkout code
-2. ✅ Setup Node.js 18
-3. ✅ Setup Java 17 (Temurin)
-4. ✅ Setup Android SDK
-5. ✅ Install dependencies (npm ci)
-6. ✅ Prepare www folder
-7. ✅ Sync Capacitor Android
-8. ✅ Build APK (./gradlew assembleDebug)
-9. ✅ Upload artifact
+**Users Collection**
+```javascript
+{
+  uid: "user123",
+  email: "user@gmail.com",
+  displayName: "Prashant",
+  photoURL: "...",
+  friends: ["user456", "user789"],
+  createdAt: timestamp
+}
+```
 
-**Status**: Last build successful ✓
+**Chats Collection**
+```javascript
+chats/{chatId}/messages/{messageId} {
+  senderId: "user123",
+  senderName: "Prashant",
+  type: "text|image|file",
+  text: "Hello!",
+  fileUrl: "gs://...",
+  fileName: "photo.jpg",
+  timestamp: serverTimestamp()
+}
+```
+
+**Shared Collection**
+```javascript
+{
+  title: "My Notes",
+  description: "Study notes for Math",
+  fileUrl: "gs://...",
+  isImage: true,
+  sharedBy: "user123",
+  sharedByName: "Prashant",
+  timestamp: serverTimestamp(),
+  likes: 10
+}
+```
 
 ---
 
-## 💡 Future Enhancements
+## 🎨 UI/UX Highlights
 
-- [ ] Cloud backup (Firebase)
-- [ ] Multi-device sync
+- 🌈 **Modern Design**: Card-based layout
+- ✨ **Animations**: Smooth transitions
+- 📱 **Responsive**: Mobile-first approach
+- 🌙 **Dark-friendly**: Easy on eyes
+- 🎯 **Intuitive**: Simple navigation
+- 🔔 **Real-time**: Live updates
+
+---
+
+## 🔐 Security & Privacy
+
+✅ **Authentication**: Firebase Google Auth
+✅ **Database**: Firestore with security rules
+✅ **Storage**: Cloud Storage with encryption
+✅ **Data Ownership**: आपके data आपके हैं
+✅ **No Tracking**: No analytics/ads
+✅ **Open Source**: Code देख सकते हो
+
+---
+
+## 📊 Sample Chat Flow
+
+```
+1. Login करो →  Google से
+     ↓
+2. Friends जोड़ो → Email से
+     ↓
+3. Chat खोलो → 1 click में
+     ↓
+4. Message भेजो → Type + Send
+     ↓
+5. Photo share करो → Upload button
+     ↓
+6. Notes share करो → Create & Share
+     ↓
+7. History देखो → सब messages saved
+```
+
+---
+
+## 🌟 Advanced Features
+
+### Sharing Activity Data
+```javascript
+// अपनी productivity data share करो
+{
+  date: "2026-02-09",
+  sessions: [{subject: "Math", hours: 2}],
+  sleepHours: 7,
+  phoneHours: 2,
+  mood: 4
+}
+```
+
+### Real-time Sync
+- Messages instantly deliver होते हैं
+- Photos upload होते हैं
+- Files accessible होती हैं तुरंत
+
+### Offline Support (Coming)
+- Local data अभी localStorage में
+- Future में offline sync करेंगे
+
+---
+
+## 🐛 Troubleshooting
+
+| Error | Solution |
+|-------|----------|
+| "Firestore not initialized" | Firebase_config.js में credentials डालो |
+| "Permission denied" | Firestore security rules check करो |
+| "Google login fail" | Google provider enable है Firebase में? |
+| "Chat not loading" | Internet connection check करो |
+| "Photo upload fail" | Cloud Storage enable है? Size < 5MB? |
+
+---
+
+## 🚀 Future Roadmap
+
+- [ ] Video calling (WebRTC)
+- [ ] Group chats
+- [ ] Notification system
+- [ ] Offline sync
 - [ ] Dark mode toggle
-- [ ] CSV export/import
-- [ ] Study timer (Pomodoro)
-- [ ] Notification reminders
-- [ ] iOS app (via Capacitor)
-- [ ] More AI features (study recommendations)
+- [ ] Subject recommendations
+- [ ] Time-based reminders
+- [ ] iOS app (Capacitor)
+- [ ] Desktop app (Electron)
 
 ---
 
-## 📝 File Structure
+## 📝 File Breakdown
 
-```
-prashant/
-├── index.html              # Main UI
-├── style.css               # Styling (600+ lines)
-├── app.js                  # Logic & rendering
-├── ai-engine.js            # AI & analytics
-├── package.json            # Dependencies
-├── capacitor.config.json   # Mobile config
-├── prepare-www.js          # Build script
-├── .github/workflows/
-│   └── android-build.yml   # CI/CD pipeline
-├── android/                # Capacitor Android
-└── README.md              # This file
-```
+| File | Purpose | Size |
+|------|---------|------|
+| index.html | UI structure | 15KB |
+| style.css | Complete styling | 35KB |
+| prashant-app.js | Main integration | 10KB |
+| simple-chat.js | Chat logic | 8KB |
+| share.js | Sharing logic | 7KB |
+| ai-engine.js | Analytics | 12KB |
+| app.js | Tracker logic | 6KB |
+| firebase-config.js | Firebase setup | 2KB |
+
+**Total Size**: ~100KB (gzipped: ~25KB)
 
 ---
 
-## 🎯 Usage Tips
+## 💡 Tips for Better Experience
 
-1. **Set Weekly Goal**: Summary में goal set करें, progress automatic calculate होगी
-2. **View Trends**: "Last 7 days" vs "Last 30 days" compare करें
-3. **Check Insights**: 5+ entries के बाद AI insights दिखने लगते हैं
-4. **Track Mood**: Mood tracking से आपकी productivity-mood relationship दिखती है
-5. **Export Data**: Browser DevTools से localStorage export कर सकते हैं
-
----
-
-## 🔐 Privacy & Security
-
-- ✅ **No server**: सब data locally stored है
-- ✅ **No tracking**: कोई analytics नहीं
-- ✅ **Open source**: Code देख सकते हैं
-- ✅ **No login**: Personal use के लिए सुरक्षित
+1. **Use Good Internet**: Chat needs live connection
+2. **Enable Notifications**: (Coming soon)
+3. **Clear Cache**: Regularly clear browser cache
+4. **Backup Data**: Download entries regularly
+5. **Invite Friends**: Solo tracker → Social network 🎉
 
 ---
 
-## 📱 Device Requirements
+## 🤝 Contributing
 
-- **Android**: 5.0+ (API 21+)
-- **Browser**: Chrome, Firefox, Safari, Edge (latest)
-- **Storage**: ~5MB
-- **RAM**: 50MB+
+- Found a bug? → Report it!
+- Have an idea? → Suggest it!
+- Want to improve code? → Pull request!
 
 ---
 
-## 💬 More Questions?
+## 📜 License
 
-Check the code or open an issue on GitHub!
+MIT License - Use freely!
 
-**Made with ❤️ for students**
+---
+
+## 🎯 Made with ❤️
+
+**By**: Prashant (यह एक नाम है, सिर्फ एक app नहीं 😄)
+
+**For**: Students, family, friends जो अपनी productivity track करना चाहते हैं
+
+**Powered by**: Firebase, Capacitor, AI
+
+---
+
+## 📞 Support
+
+- 📧 Email: Check GitHub profile
+- 🐛 Issues: GitHub issues
+- 💬 Discussion: GitHub discussions
+
+---
+
+## 🎉 Ready to start?
+
+1. ✅ Firebase setup करो
+2. ✅ Code clone करो
+3. ✅ Config file update करो
+4. ✅ localhost:8000 खोलो
+5. ✅ Google से login करो
+6. ✅ Friends को invite करो
+7. ✅ Share करो! 📤
+
+**Here we go! 🚀**
 powershell -ExecutionPolicy Bypass -File .\build-apk.ps1
 ```
 
