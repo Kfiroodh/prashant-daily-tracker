@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>PRASHANT — Daily Activity Tracker</title>
+  <title>PRASHANT — AI Productivity Tracker</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
@@ -14,17 +14,34 @@
         <div class="logo">P</div>
         <div>
           <h1>PRASHANT</h1>
-          <div class="subtitle">Daily Activity Tracker — अपनी रोज़ की गतिविधियाँ रिकॉर्ड करें</div>
+          <div class="subtitle">AI Productivity Tracker — अपनी प्रगति ट्रैक करें</div>
         </div>
-      </div>
-      <div class="header-actions">
-        <button id="addSessionTop" class="ghost">+ नया session</button>
       </div>
     </header>
 
+    <!-- Productivity Score & Daily Motivation -->
+    <section id="aiDashboard" class="card dashboard-card">
+      <div class="productivity-score">
+        <div class="score-circle">
+          <svg viewBox="0 0 200 200">
+            <circle cx="100" cy="100" r="90" class="score-bg"></circle>
+            <circle cx="100" cy="100" r="90" class="score-progress" id="scoreCircle"></circle>
+          </svg>
+          <div class="score-text">
+            <div class="score-number" id="scoreNumber">0</div>
+            <div class="score-label">Productivity</div>
+          </div>
+        </div>
+        <div class="motivation-box">
+          <div class="motivation-text" id="motivationText">शुरुआत करें!</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Grid -->
     <main class="grid">
       <section class="card form-card">
-        <h2 class="card-title">Add Day Entry</h2>
+        <h2 class="card-title">📝 आज का डेटा</h2>
         <form id="entryForm">
           <div class="row">
             <label class="full">तारीख: <input type="date" id="date" required></label>
@@ -33,35 +50,65 @@
           <div id="studySessions">
             <h3>Study Sessions</h3>
           </div>
-          <div class="row"><button type="button" id="addSession">+ नया study session जोड़ें</button></div>
+          <div class="row"><button type="button" id="addSession" class="btn-secondary">+ नया session</button></div>
 
           <div class="row two">
             <label>Phone Hours: <input type="number" id="phoneHours" min="0" step="0.25" value="0"></label>
             <label>Sleep Hours: <input type="number" id="sleepHours" min="0" step="0.25" value="0"></label>
           </div>
 
+          <!-- Mood Tracking -->
+          <div class="mood-selector">
+            <label>आपका मूड:</label>
+            <div class="mood-options">
+              <button type="button" class="mood-btn" data-mood="1" title="बहुत खराब">😢</button>
+              <button type="button" class="mood-btn" data-mood="2" title="खराब">😕</button>
+              <button type="button" class="mood-btn" data-mood="3" title="सामान्य">😐</button>
+              <button type="button" class="mood-btn" data-mood="4" title="अच्छा">🙂</button>
+              <button type="button" class="mood-btn" data-mood="5" title="बहुत अच्छा">😄</button>
+            </div>
+            <input type="hidden" id="mood" value="0">
+          </div>
+
           <label>Notes:
-            <textarea id="notes" rows="2" placeholder="कुछ नोट्स (optional)"></textarea>
+            <textarea id="notes" rows="2" placeholder="आज की पढ़ाई के बारे में कुछ नोट्स..."></textarea>
           </label>
 
-          <div class="actions"><button type="submit" id="saveBtn">Save Entry</button></div>
+          <div class="actions"><button type="submit" id="saveBtn" class="btn-primary">Save Entry</button></div>
         </form>
       </section>
 
       <aside class="card summary-card">
-        <h2 class="card-title">Summary</h2>
-        <div id="summary">
-          <!-- goal controls and chart inserted by JS -->
-        </div>
+        <h2 class="card-title">📊 Summary</h2>
+        <div id="summary"></div>
       </aside>
     </main>
 
+    <!-- AI Insights Section -->
+    <section class="card insights-card">
+      <h2 class="card-title">🤖 AI Insights</h2>
+      <div id="aiInsights" class="insights-container">
+        <p class="small">डेटा जोड़ें और AI से अंतर्दृष्टि प्राप्त करें।</p>
+      </div>
+    </section>
+
+    <!-- Weekly Summary -->
+    <section class="card weekly-summary-card">
+      <h2 class="card-title">📈 सप्ताह का विश्लेषण</h2>
+      <div id="weeklySummary" class="weekly-content">
+        <p class="small">अभी तक कोई साप्ताहिक डेटा नहीं।</p>
+      </div>
+    </section>
+
+    <!-- History Section -->
     <section class="card history-card">
-      <h2 class="card-title">History</h2>
+      <h2 class="card-title">📅 History</h2>
       <div id="history"></div>
     </section>
   </div>
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="ai-engine.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
