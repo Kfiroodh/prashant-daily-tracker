@@ -1,0 +1,14 @@
+{
+  "name": "prashant-daily-tracker",
+  "version": "1.0.0",
+  "description": "PRASHANT — Daily Activity Tracker (web) — prepared for Capacitor build",
+  "scripts": {
+    "prepare-www": "node prepare-www.js",
+    "cap:init": "npx @capacitor/cli init prashant-app com.example.prashant --web-dir=www"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^5.7.8",
+    "@capacitor/cli": "^5.7.8",
+    "@capacitor/core": "^5.7.8"
+  }
+}

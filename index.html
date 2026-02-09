@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>PRASHANT — Daily Activity Tracker</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="brand">
+        <div class="logo">P</div>
+        <div>
+          <h1>PRASHANT</h1>
+          <div class="subtitle">Daily Activity Tracker — अपनी रोज़ की गतिविधियाँ रिकॉर्ड करें</div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="addSessionTop" class="ghost">+ नया session</button>
+      </div>
+    </header>
+
+    <main class="grid">
+      <section class="card form-card">
+        <h2 class="card-title">Add Day Entry</h2>
+        <form id="entryForm">
+          <div class="row">
+            <label class="full">तारीख: <input type="date" id="date" required></label>
+          </div>
+
+          <div id="studySessions">
+            <h3>Study Sessions</h3>
+          </div>
+          <div class="row"><button type="button" id="addSession">+ नया study session जोड़ें</button></div>
+
+          <div class="row two">
+            <label>Phone Hours: <input type="number" id="phoneHours" min="0" step="0.25" value="0"></label>
+            <label>Sleep Hours: <input type="number" id="sleepHours" min="0" step="0.25" value="0"></label>
+          </div>
+
+          <label>Notes:
+            <textarea id="notes" rows="2" placeholder="कुछ नोट्स (optional)"></textarea>
+          </label>
+
+          <div class="actions"><button type="submit" id="saveBtn">Save Entry</button></div>
+        </form>
+      </section>
+
+      <aside class="card summary-card">
+        <h2 class="card-title">Summary</h2>
+        <div id="summary">
+          <!-- goal controls and chart inserted by JS -->
+        </div>
+      </aside>
+    </main>
+
+    <section class="card history-card">
+      <h2 class="card-title">History</h2>
+      <div id="history"></div>
+    </section>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
